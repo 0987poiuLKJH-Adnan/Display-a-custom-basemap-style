@@ -1,0 +1,79 @@
+<!--
+
+To run this demo, you need to replace 'YOUR_ACCESS_TOKEN' with an access token from ArcGIS that has the correct privileges.
+
+To get started, sign up for a free ArcGIS Location Platform account or a free trial of ArcGIS Online and create developer credentials.
+
+https://developers.arcgis.com/documentation/security-and-authentication/get-started/
+
+-->
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a custom basemap style</title>
+
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+      }
+    </style>
+
+    
+
+    <!-- Load Calcite components from CDN -->
+    <script type="module" src="https://js.arcgis.com/calcite-components/3.3.3/calcite.esm.js"></script>
+
+    <!-- Load the ArcGIS Maps SDK for JavaScript from CDN -->
+    <script src="https://js.arcgis.com/4.34/"></script>
+
+    <!-- Load Map components from CDN-->
+    <script type="module" src="https://js.arcgis.com/4.34/map-components/"></script>
+
+  </head>
+
+  <body>
+
+    <arcgis-map basemap="arcgis/topographic" center="-118.805, 34.020" zoom="13">
+
+      <arcgis-zoom slot="top-left"></arcgis-zoom>
+
+    </arcgis-map>
+
+    <script type="module">
+
+      const [Basemap, TileLayer, VectorTileLayer] = await $arcgis.import([
+        "@arcgis/core/Basemap.js",
+        "@arcgis/core/layers/TileLayer.js",
+        "@arcgis/core/layers/VectorTileLayer.js",
+      ]);
+
+      const vectorTileLayer = new VectorTileLayer({
+        portalItem: {
+          id: "6976148c11bd497d8624206f9ee03e30", // Forest and Parks Canvas
+        },
+        opacity: 0.75,
+      });
+
+      const hillshadeTileLayer = new TileLayer({
+        portalItem: {
+          id: "1b243539f4514b6ba35e7d995890db1d", // World Hillshade
+        },
+      });
+
+      const basemap = new Basemap({ baseLayers: [hillshadeTileLayer, vectorTileLayer] });
+
+      const viewElement = document.querySelector("arcgis-map");
+      viewElement.basemap = basemap;
+
+      viewElement.center = [-100, 40];
+      viewElement.zoom = 3;
+
+    </script>
+
+  </body>
+
+</html>
